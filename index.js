@@ -17,10 +17,10 @@ app.use(Express.urlencoded({ extended: true }))
 
 
 app.use(cors({
-    origin: ['http://localhost:3001', 'http://localhost:3002'],
+    origin: ['http://localhost:3001', 'http://localhost:3002', 'http://localhost:3000', 'https://zgn3hlb1-3000.inc1.devtunnels.ms'],
     credentials: true
 }))
-
+app.set('trust proxy', 1)
 const port = process.env.port
 
 mongoose.connect(process.env.MONGO_DB)
@@ -38,7 +38,13 @@ app.use(session({
     saveUninitialized: false,
     secret: process.env.Secret_Key,
     resave: false,
-    store: Store
+    store: Store,
+    cookie: {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true
+
+    }
 }))
 
 
